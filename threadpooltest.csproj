@@ -5,12 +5,20 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+<!--
 <PropertyGroup>
-  <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
-  <ServerGarbageCollection>true</ServerGarbageCollection>
-  <RetainVMGarbageCollection>true</RetainVMGarbageCollection>
   <ThreadPoolMinThreads>1</ThreadPoolMinThreads>
   <ThreadPoolMaxThreads>10</ThreadPoolMaxThreads>
-  <InvariantGlobalization>true</InvariantGlobalization>
 </PropertyGroup>
+
+This PropertyGroup makes 
+    "configProperties": {
+      "System.Threading.ThreadPool.MinThreads": 1,
+      "System.Threading.ThreadPool.MaxThreads": 10
+    }
+into <projname>.runtimeconfig.json but does NOT WORK.
+
+because numeric values should be written in string format.
+https://github.com/dotnet/coreclr/blob/v2.2.0/Documentation/project-docs/clr-configuration-knobs.md
+-->
 </Project>
