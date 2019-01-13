@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace threadpooltest
@@ -14,6 +15,13 @@ namespace threadpooltest
         {
             Doit().Wait();
             Console.WriteLine("thread count: " + dict.Count);
+
+            foreach (var tuple in
+                    dict.SelectMany(kv => kv.Value.Select(d => new Tuple<DateTimeOffset, int>(d, kv.Key)))
+                    .OrderBy(tuple => tuple.Item1))
+            {
+                Console.WriteLine(tuple.Item1.ToString("O") + "\t" + tuple.Item2);
+            }
             return;
         }
 
@@ -28,12 +36,15 @@ namespace threadpooltest
         static async Task waitRandom()
         {
             var now = DateTimeOffset.Now;
-            var randMillisec = (int)(new Random().NextDouble() * 100);
-            await Task.Delay(randMillisec);
 
-            var threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
-            var datetimeList = dict.GetOrAdd(threadId, new List<DateTimeOffset>());
-            datetimeList.Add(now);
+            await Task.Run(async () =>
+            {
+                var randMillisec = (int)(new Random().NextDouble() * 1000);
+                await Task.Delay(randMillisec);
+                var threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
+                var datetimeList = dict.GetOrAdd(threadId, new List<DateTimeOffset>());
+                datetimeList.Add(now);
+            });
         }
     }
 }
