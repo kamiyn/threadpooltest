@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+<PropertyGroup>
+  <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+  <ServerGarbageCollection>true</ServerGarbageCollection>
+  <RetainVMGarbageCollection>true</RetainVMGarbageCollection>
+  <ThreadPoolMinThreads>1</ThreadPoolMinThreads>
+  <ThreadPoolMaxThreads>10</ThreadPoolMaxThreads>
+  <InvariantGlobalization>true</InvariantGlobalization>
+</PropertyGroup>
+</Project>
